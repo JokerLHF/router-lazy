@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import routerList from './router/index';
+function App () {
+  console.log(routerList);
+  const childrenList = routerList.children;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      {
+        childrenList.map(item => {
+          return (<Link to={item.path}>{item.text}</Link>)
+        })
+      }
+      <Switch>
+        {
+          childrenList.map(item => {
+            const { component, path, exact = false } = item;
+            return (<Route exact={exact} path={path} component={component} />)
+          })
+        }
+      </Switch>
+    </Router>
+  )
 }
 
 export default App;
